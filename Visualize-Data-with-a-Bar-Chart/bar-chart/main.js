@@ -56,23 +56,31 @@ dataset.then((data) => {
     .attr("data-gdp", (d) => d[1])
     .on("mouseover", (mouseData, d) => {
       const tooltip = document.querySelector("#tooltip");
-      const tooltipDate = document.querySelector("#tooltip-date");
-      const tooltipGDP = document.querySelector("#tooltip-gdp");
-      // center tooltip
+      const tooltipDate = d3.select("#tooltip-date");
+      const tooltipGDP = d3.select("#tooltip-gdp");
+
+      tooltip.setAttribute("data-date", d[0]);
       tooltip.style.left = mouseData.pageX - tooltip.offsetWidth + "px";
-      tooltipDate.textContent = d[0];
-      tooltipGDP.textContent = `$${d[1]} Billion`;
-      tooltip.classList.remove("opactiy-0");
       tooltip.style.opacity = 1;
+
+      tooltipDate.text(d[0]);
+      tooltipGDP.text(`$${d[1]} Billion`);
+    })
+    .on("mouseout", () => {
+      const tooltip = document.querySelector("#tooltip");
+
+      tooltip.style.opacity = 0;
     });
 
   svg
     .append("g")
+    .attr("id", "x-axis")
     .attr("transform", "translate(0," + (h - padding) + ")")
     .call(xAxis);
 
   svg
     .append("g")
+    .attr("id", "y-axis")
     .attr("transform", "translate(" + padding + ",0)")
     .call(yAxis);
 });
