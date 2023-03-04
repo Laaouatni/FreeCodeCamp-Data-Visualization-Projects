@@ -60,7 +60,8 @@ dataset.then((data) => {
       const tooltipGDP = d3.select("#tooltip-gdp");
 
       tooltip.setAttribute("data-date", d[0]);
-      tooltip.style.left = mouseData.pageX - tooltip.offsetWidth + "px";
+      tooltip.style.left =
+        mouseData.pageX - tooltip.offsetWidth + "px";
       tooltip.style.opacity = 1;
 
       tooltipDate.text(d[0]);
