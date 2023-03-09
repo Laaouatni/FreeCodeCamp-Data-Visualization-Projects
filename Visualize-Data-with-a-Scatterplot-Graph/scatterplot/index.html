@@ -2,31 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/vite.svg"
-    />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
     <link href="/dist/output.css" rel="stylesheet" />
   </head>
   <body>
-    <div
-      id="app"
-      class="grid place-items-center h-screen bg-sky-50"
-    >
+    <div id="app" class="grid place-items-center h-screen bg-sky-50">
       <div
         id="container"
         class="relative shadow-md p-4 rounded-md bg-white grid gap-4 active:scale-105 hover:shadow-sky-400/30 transition"
       >
-        <h1
-          id="title"
-          class="text-center font-bold text-3xl capitalize"
-        >
+        <h1 id="title" class="text-center font-bold text-3xl capitalize">
           Doping in Professional Bicycle Racing
         </h1>
         <svg class="border"></svg>
@@ -34,6 +21,16 @@
           id="tooltip"
           class="border-4 p-4 rounded-lg shadow-xl absolute backdrop-blur-sm transition pointer-events-none opacity-0"
         ></div>
+        <div id="legend" class="grid grid-cols-2 place-items-center">
+          <div class="grid gap-2 grid-flow-col place-items-center">
+            <span class="h-4 w-4 rounded-full bg-green-500"></span>
+            <span class="text-green-500 font-bold">No doping</span>
+          </div>
+          <div class="grid gap-2 grid-flow-col place-items-center">
+            <span class="h-4 w-4 rounded-full bg-red-400"></span>
+            <span class="text-red-500 font-bold">Doping</span>
+          </div>
+        </div>
       </div>
     </div>
     <script type="module" src="/main.js"></script>

@@ -38,9 +38,7 @@ d3.json(
       d3.max(data, (d) => returnMinSecDate(d.Time)),
     ]);
 
-  const yAxis = d3
-    .axisLeft(yScale)
-    .tickFormat(d3.timeFormat("%M:%S"));
+  const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
 
   svg
     .append("g")
@@ -59,7 +57,7 @@ d3.json(
     .append("circle")
     .attr("class", "dot")
     .attr("data-xvalue", (d) => d.Year)
-    .attr("data-yvalue", (d) => d.Time)
+    .attr("data-yvalue", (d) => returnMinSecDate(d.Time))
     .attr("cx", (d) => xScale(returnYearDate(d.Year)))
     .attr("cy", (d) => yScale(returnMinSecDate(d.Time)))
     .attr("r", 5)
@@ -77,6 +75,7 @@ d3.json(
 
       tooltip
         .html(`${objToString(d)}`)
+        .attr("data-year", d.Year)
         .style(
           "transform",
           `translate(
@@ -96,6 +95,9 @@ d3.json(
 
   // tooltip
   const tooltip = d3.select("#tooltip");
+
+  // legend
+  const legend = d3.select("#legend");
 });
 
 function returnMinSecDate(input) {
