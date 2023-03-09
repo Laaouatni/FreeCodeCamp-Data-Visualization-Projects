@@ -15,11 +15,11 @@ d3.json(
 
   // x
   const xScale = d3
-    .scaleLinear()
+    .scaleTime()
     .range([padding, w - padding])
     .domain([
-      d3.min(data, (d) => d.Year),
-      d3.max(data, (d) => d.Year),
+      returnYearDate(d3.min(data, (d) => d.Year)),
+      returnYearDate(d3.max(data, (d) => d.Year)),
     ]);
   const xAxis = d3.axisBottom(xScale);
 
@@ -60,7 +60,7 @@ d3.json(
     .attr("class", "dot")
     .attr("data-xvalue", (d) => d.Year)
     .attr("data-yvalue", (d) => d.Time)
-    .attr("cx", (d) => xScale(d.Year))
+    .attr("cx", (d) => xScale(returnYearDate(d.Year)))
     .attr("cy", (d) => yScale(returnMinSecDate(d.Time)))
     .attr("r", 5)
     .attr("fill", (d) => (d.Doping ? "red" : "green"))
@@ -72,17 +72,28 @@ d3.json(
         .style("opacity", 1)
         .attr("r", 10)
         .attr("stroke-width", 3);
-      
-      console.log(d)
-      // tooltip.text(`${d}`)
-      })
-      .on("mouseout", (d) => {
-        d3.select(d.target)
+
+      tooltip.classed("opacity-0", false);
+
+      tooltip
+        .html(`${objToString(d)}`)
+        .style(
+          "transform",
+          `translate(
+            ${xScale(returnYearDate(d.Year)) + 30}px, 
+            ${yScale(returnMinSecDate(d.Time))}px
+          )`,
+        );
+    })
+    .on("mouseout", (d) => {
+      d3.select(d.target)
         .style("opacity", 0.5)
         .attr("r", 5)
         .attr("stroke-width", 1);
-      });
-  
+
+      tooltip.classed("opacity-0", true);
+    });
+
   // tooltip
   const tooltip = d3.select("#tooltip");
 });
@@ -93,4 +104,22 @@ function returnMinSecDate(input) {
   date.setMinutes(arr[0]);
   date.setSeconds(arr[1]);
   return date;
+}
+
+function returnYearDate(input) {
+  const date = new Date();
+  date.setFullYear(input);
+  return date;
+}
+
+function objToString(obj) {
+  return Object.keys(obj)
+    .map(
+      (key) =>
+        `<div class="flex justify-between gap-8">
+        <span class="font-bold">${key}</span>
+        <span>${obj[key] || "no result..."}</span>
+      </div>`,
+    )
+    .join("");
 }

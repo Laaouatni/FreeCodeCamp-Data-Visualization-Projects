@@ -2,21 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/vite.svg"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Vite App</title>
-    <link href="/dist/output.css" rel="stylesheet">
+    <link href="/dist/output.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="app" class="grid place-items-center h-screen bg-sky-50">
-      <div id="container" class="shadow-md p-4 rounded-md bg-white grid gap-4 active:scale-105 hover:shadow-sky-400/30 transition">
-        <h1 id="title" class="text-center font-bold text-3xl capitalize">Doping in Professional Bicycle Racing</h1>
+    <div
+      id="app"
+      class="grid place-items-center h-screen bg-sky-50"
+    >
+      <div
+        id="container"
+        class="relative shadow-md p-4 rounded-md bg-white grid gap-4 active:scale-105 hover:shadow-sky-400/30 transition"
+      >
+        <h1
+          id="title"
+          class="text-center font-bold text-3xl capitalize"
+        >
+          Doping in Professional Bicycle Racing
+        </h1>
         <svg class="border"></svg>
-        <div id="tooltip">
-          hello world
-        </div>
+        <div
+          id="tooltip"
+          class="border-4 p-4 rounded-lg shadow-xl absolute backdrop-blur-sm transition pointer-events-none opacity-0"
+        ></div>
       </div>
     </div>
     <script type="module" src="/main.js"></script>
   </body>
+  <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 </html>
