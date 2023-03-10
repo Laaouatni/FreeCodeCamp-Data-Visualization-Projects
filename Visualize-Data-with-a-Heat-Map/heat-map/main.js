@@ -7,7 +7,7 @@ const json = d3.json(
 json.then((data) => {
   const dataset = data.monthlyVariance;
 
-  const w = (window.innerWidth / 100) * 60;
+  const w = (window.innerWidth / 100) * 80;
   const h = (window.innerHeight / 100) * 60;
   const p = 150;
 
@@ -33,6 +33,7 @@ json.then((data) => {
 
   svg
     .append("g")
+    .attr("id", "x-axis")
     .style("transform", `translate(${p / 2}px,${h - p / 2}px)`)
     .call(d3.axisBottom(xScale));
 
@@ -43,6 +44,7 @@ json.then((data) => {
 
   svg
     .append("g")
+    .attr("id", "y-axis")
     .style(
       "transform",
       `translate(${p / 2}px, ${p / 2}px
@@ -57,6 +59,7 @@ json.then((data) => {
   const allLengths = returnAllLengthsMonths(dataset);
 
   rects
+    .attr("class", "cell")
     .attr("fill", (d) => randomColor())
     .attr("x", (d) => xScale(returnYear(d.year)))
     .attr("y", (d) => yScale(d.month))
@@ -65,7 +68,19 @@ json.then((data) => {
       const totalItemsPerMonth = allLengths.find((item) => item.monthNumber === month);
       return w / totalItemsPerMonth.length;
     })
-    .attr("height", yScale.bandwidth());
+    .attr("height", yScale.bandwidth())
+    .attr("data-month", (d) => d.month - 1)
+    .attr("data-year", (d) => d.year)
+    .attr("data-temp", (d) => d.variance)
+  
+  // description
+  d3.select("#description")
+    .text(() => {
+      const minYear = d3.min(dataset, (d) => d.year);
+      const maxYear = d3.max(dataset, (d) => d.year);
+      const baseTemperature = data.baseTemperature;
+      return `${minYear} - ${maxYear}: base temperature ${baseTemperature}℃`;
+    });
 });
 
 function returnYear(year) {
