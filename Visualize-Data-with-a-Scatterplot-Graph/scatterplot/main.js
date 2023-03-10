@@ -64,7 +64,7 @@ d3.json(
     .attr("fill", (d) => (d.Doping ? "red" : "green"))
     .style("opacity", 0.6)
     .attr("stroke", "black")
-    .style("transition", "all 0.4s")
+    .classed("transition-all", true)
     .on("mouseover", (a, d) => {
       d3.select(a.target)
         .style("opacity", 1)
@@ -95,9 +95,6 @@ d3.json(
 
   // tooltip
   const tooltip = d3.select("#tooltip");
-
-  // legend
-  const legend = d3.select("#legend");
 });
 
 function returnMinSecDate(input) {
