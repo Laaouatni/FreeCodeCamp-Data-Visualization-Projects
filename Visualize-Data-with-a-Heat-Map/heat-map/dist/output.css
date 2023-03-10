@@ -633,6 +633,63 @@ video {
   border-width: 8px;
 }
 
+.bg-red-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(153 27 27 / var(--tw-bg-opacity));
+}
+
+.fill-red-700 {
+  fill: #b91c1c;
+}
+
+.fill-orange-600 {
+  fill: #ea580c;
+}
+
+.fill-red-600 {
+  fill: #dc2626;
+}
+
+.fill-blue-600 {
+  fill: #2563eb;
+}
+
+.fill-sky-500 {
+  fill: #0ea5e9;
+}
+
+.fill-blue-300 {
+  fill: #93c5fd;
+}
+
+.fill-blue-500 {
+  fill: #3b82f6;
+}
+
+.fill-blue-400 {
+  fill: #60a5fa;
+}
+
+.fill-red-500 {
+  fill: #ef4444;
+}
+
+.fill-red-400 {
+  fill: #f87171;
+}
+
+.fill-red-300 {
+  fill: #fca5a5;
+}
+
+.fill-red-200 {
+  fill: #fecaca;
+}
+
+.fill-red-100 {
+  fill: #fee2e2;
+}
+
 .stroke-red-600 {
   stroke: #dc2626;
 }
