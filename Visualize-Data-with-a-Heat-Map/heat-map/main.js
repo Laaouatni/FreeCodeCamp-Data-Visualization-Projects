@@ -6,7 +6,6 @@ const json = d3.json(
 
 json.then((data) => {
   const dataset = data.monthlyVariance;
-  console.log(dataset);
 
   const w = (window.innerWidth / 100) * 80;
   const h = (window.innerHeight / 100) * 60;
@@ -73,9 +72,10 @@ json.then((data) => {
       return w / totalItemsPerMonth.length;
     })
     .attr("height", yScale.bandwidth())
-    .attr("data-month", (d) => d.month)
+    .attr("data-month", (d) => d.month - 1)
     .attr("data-year", (d) => d.year)
-    .attr("data-temp", (d) => data.baseTemperature + d.variance);
+    .attr("data-temp", (d) => data.baseTemperature + d.variance)
+    .classed("hover:fill-yellow-200", true);
 
   rects
     .on("mouseover", (e, d, n) => {
@@ -89,6 +89,8 @@ json.then((data) => {
       };
 
       const tooltip = d3.select("#tooltip");
+
+      tooltip.attr("data-year", thisRect.attr("data-year"));
 
       tooltip.classed("backdrop-blur-md", true);
 
@@ -122,43 +124,90 @@ json.then((data) => {
       tooltip.classed("opacity-0", true);
     });
 
-  rects
-    .classed("fill-blue-600", (d) => {
+  const twColorObj = {
+    "fill-blue-600": {
+      maxTemp: 3.9,
+      needToBeApplied: (t) => t < 3.9,
+    },
+    "fill-blue-500": {
+      minTemp: 3.9,
+      maxTemp: 5,
+      needToBeApplied: (t) => t >= 3.9 && t < 5,
+    },
+    "fill-blue-400": {
+      minTemp: 5,
+      maxTemp: 6.1,
+      needToBeApplied: (t) => t >= 5 && t < 6.1,
+    },
+    "fill-blue-300": {
+      minTemp: 6.1,
+      maxTemp: 7.2,
+      needToBeApplied: (t) => t >= 6.1 && t < 7.2,
+    },
+    "fill-red-200": {
+      minTemp: 7.2,
+      maxTemp: 8.3,
+      needToBeApplied: (t) => t >= 7.2 && t < 8.3,
+    },
+    "fill-red-300": {
+      minTemp: 8.3,
+      maxTemp: 9.5,
+      needToBeApplied: (t) => t >= 8.3 && t < 9.5,
+    },
+    "fill-red-400": {
+      minTemp: 9.5,
+      maxTemp: 10.6,
+      needToBeApplied: (t) => t >= 9.5 && t < 10.6,
+    },
+    "fill-red-500": {
+      minTemp: 10.6,
+      maxTemp: 11.7,
+      needToBeApplied: (t) => t >= 10.6 && t < 11.7,
+    },
+    "fill-red-600": {
+      minTemp: 11.7,
+      needToBeApplied: (t) => t >= 11.7,
+    },
+  };
+
+  
+  // legend
+  const legend = d3.select("#legend");
+
+  legend.classed("flex", true).classed("justify-evenly", true);
+
+  const legendDivs = legend
+    .selectAll("div")
+    .data(Object.keys(twColorObj))
+    .enter()
+    .append("div");
+
+  legendDivs
+    .attr("data-index", (d, i) => i)
+    .attr("data-tw-color", (d) => d)
+    .attr("min-temp", (d) => twColorObj[d].minTemp)
+    .attr("max-temp", (d) => twColorObj[d].maxTemp);
+
+  legendDivs.html((d) => {
+    return `<div class="border">
+      <div class="w-10 h-10 putTwColorHere"></div>
+    </div>`;
+  });
+
+  Object.keys(twColorObj).forEach((key) => {
+    const value = twColorObj[key];
+    
+    rects.classed(key, (d) => {
       const temperature = data.baseTemperature + d.variance;
-      return temperature < 3.9;
-    })
-    .classed("fill-blue-500", (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return temperature >= 3.9 && temperature < 5;
-    })
-    .classed("fill-blue-400", (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return temperature >= 5 && temperature < 6.1;
-    })
-    .classed("fill-blue-300", (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return temperature >= 6.1 && temperature < 7.2;
-    })
-    .classed("fill-red-200", (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return temperature >= 7.2 && temperature < 8.3;
-    })
-    .classed("fill-red-300", (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return temperature >= 8.3 && temperature < 9.5;
-    })
-    .classed("fill-red-400", (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return temperature >= 9.5 && temperature < 10.6;
-    })
-    .classed("fill-red-500", (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return temperature >= 10.6 && temperature < 11.7;
-    })
-    .classed("fill-red-600", (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return temperature >= 11.7;
+      return value.needToBeApplied(temperature);
     });
+
+    legendDivs
+      .selectAll(".putTwColorHere")
+      .classed(key.replace("fill", "bg"), (d) => {
+        return value.needToBeApplied(data.baseTemperature);
+      });
+  });
 
   // description
   d3.select("#description").text(() => {
@@ -173,14 +222,6 @@ function returnYear(year) {
   const date = new Date();
   date.setFullYear(year);
   return date;
-}
-
-function randomColor() {
-  return `rgb(${n()},${n()},${n()})`;
-
-  function n() {
-    return Math.floor(Math.random() * 255);
-  }
 }
 
 function returnAllLengthsMonths(dataset) {
