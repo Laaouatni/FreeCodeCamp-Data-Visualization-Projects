@@ -6,6 +6,7 @@ const json = d3.json(
 
 json.then((data) => {
   const dataset = data.monthlyVariance;
+  console.log(dataset);
 
   const w = (window.innerWidth / 100) * 80;
   const h = (window.innerHeight / 100) * 60;
@@ -72,14 +73,54 @@ json.then((data) => {
       return w / totalItemsPerMonth.length;
     })
     .attr("height", yScale.bandwidth())
-    .attr("data-month", (d) => d.month - 1)
+    .attr("data-month", (d) => d.month)
     .attr("data-year", (d) => d.year)
     .attr("data-temp", (d) => data.baseTemperature + d.variance);
 
-  rects.on("mouseover", (d, i, n) => { 
-    d3.select(d.target)
-    /* add tooltip functionality tomorrow */
-  });
+  rects
+    .on("mouseover", (e, d, n) => {
+      const thisRect = d3.select(e.target);
+
+      const dataToShow = {
+        month: thisRect.attr("data-month"),
+        year: thisRect.attr("data-year"),
+        temp: Number(thisRect.attr("data-temp")).toFixed(3),
+        variance: d.variance,
+      };
+
+      const tooltip = d3.select("#tooltip");
+
+      tooltip.classed("backdrop-blur-md", true);
+
+      tooltip.style("transform", () => {
+        const x = xScale(returnYear(d.year));
+        const y = yScale(d.month);
+        return `translate(${x}px, ${y}px)`;
+      });
+
+      tooltip.classed("opacity-0", false);
+
+      tooltip.html(() => {
+        return Object.keys(dataToShow)
+          .map((key) => {
+            return `
+            <div class="grid grid-cols-2 gap-4">
+              <span class="font-bold flex justify-between gap-2">
+                <span>${key}</span>
+                <span>:</span>
+              </span>
+              <span class="text-right">${dataToShow[key]}</span>
+            </div>
+          `;
+          })
+          .join("");
+      });
+    })
+    .on("mouseout", () => {
+      const tooltip = d3.select("#tooltip");
+
+      tooltip.classed("opacity-0", true);
+    });
 
   rects
     .classed("fill-blue-600", (d) => {

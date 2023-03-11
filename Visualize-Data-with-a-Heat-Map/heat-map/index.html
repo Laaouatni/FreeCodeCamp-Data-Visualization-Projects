@@ -9,13 +9,13 @@
   </head>
   <body>
     <div id="app" class="grid h-screen place-items-center">
-      <div id="container" class="p-4 border-8 gap-4 grid">
+      <div id="container" class="p-4 border-8 gap-4 grid relative">
         <div class="text-center font-bold capitalize">
           <h1 id="title" class="text-2xl">Monthly Global Land-Surface Temperature</h1>
           <h3 id="description">no description...</h3>
         </div>
         <svg class="border"></svg>
-        <!-- add tooltip functionality tomorrow -->
+        <div id="tooltip" class="opacity-0 transition-opacity absolute shadow-2xl p-4 rounded-lg capitalize pointer-events-none text-lg">hello world</div>
       </div>
     </div>
     <script type="module" src="/main.js"></script>
