@@ -3,20 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Vite App</title>
-    <link href="/dist/output.css" rel="stylesheet">
+    <link href="/dist/output.css" rel="stylesheet" />
   </head>
   <body>
     <div id="app" class="grid h-screen place-items-center">
       <div id="container" class="p-4 border-8 gap-4 grid relative">
         <div class="text-center font-bold capitalize">
-          <h1 id="title" class="text-2xl">Monthly Global Land-Surface Temperature</h1>
+          <h1 id="title" class="text-2xl">
+            Monthly Global Land-Surface Temperature
+          </h1>
           <h3 id="description">no description...</h3>
         </div>
         <svg class="border"></svg>
-        <div id="legend" class="p-4 border"></div>
-        <div id="tooltip" class="opacity-0 transition-opacity absolute shadow-2xl p-4 rounded-lg capitalize pointer-events-none text-lg">hello world</div>
+        <div id="legend" class="p-4 border grid gap-4">
+          <h3 class="font-bold text-2xl">Legend:</h3>
+        </div>
+        <div
+          id="tooltip"
+          class="opacity-0 transition-opacity absolute shadow-2xl p-4 rounded-lg capitalize pointer-events-none text-lg"
+        >
+          hello world
+        </div>
       </div>
     </div>
     <script type="module" src="/main.js"></script>

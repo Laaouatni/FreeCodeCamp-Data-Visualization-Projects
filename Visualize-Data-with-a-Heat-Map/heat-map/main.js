@@ -170,11 +170,18 @@ json.then((data) => {
     },
   };
 
-  
-  // legend
-  const legend = d3.select("#legend");
+  Object.keys(twColorObj).forEach((key) => {
+    const value = twColorObj[key];
+    rects.classed(key, (d) => {
+      const temperature = data.baseTemperature + d.variance;
+      return value.needToBeApplied(temperature);
+    });
+  });
 
-  legend.classed("flex", true).classed("justify-evenly", true);
+  // legend
+  const legend = d3.select("#legend").append("rect");
+
+  legend.classed("flex", true).classed("justify-evenly", true).classed("flex-wrap", true).classed("gap-4", true);
 
   const legendDivs = legend
     .selectAll("div")
@@ -189,25 +196,19 @@ json.then((data) => {
     .attr("max-temp", (d) => twColorObj[d].maxTemp);
 
   legendDivs.html((d) => {
-    return `<div class="border">
-      <div class="w-10 h-10 putTwColorHere"></div>
+    return `<div class="border p-2 grid gap-2 place-items-center rounded-xl hover:shadow-lg transition">
+      <div class="w-10 h-10 ${d.replace(
+        "fill",
+        "bg",
+      )} rounded-lg"></div>
+      <div class="text-center flex gap-4">
+        <span>${twColorObj[d].minTemp || "<"}</span>
+        <span>${twColorObj[d].maxTemp || ">"}</span>
+      </div>
     </div>`;
   });
 
-  Object.keys(twColorObj).forEach((key) => {
-    const value = twColorObj[key];
-    
-    rects.classed(key, (d) => {
-      const temperature = data.baseTemperature + d.variance;
-      return value.needToBeApplied(temperature);
-    });
-
-    legendDivs
-      .selectAll(".putTwColorHere")
-      .classed(key.replace("fill", "bg"), (d) => {
-        return value.needToBeApplied(data.baseTemperature);
-      });
-  });
+  legendDivs.selectAll(".putTwColorHere");
 
   // description
   d3.select("#description").text(() => {
