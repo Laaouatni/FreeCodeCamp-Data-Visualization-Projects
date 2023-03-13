@@ -208,8 +208,6 @@ json.then((data) => {
     </div>`;
   });
 
-  legendDivs.selectAll(".putTwColorHere");
-
   // description
   d3.select("#description").text(() => {
     const minYear = d3.min(dataset, (d) => d.year);
