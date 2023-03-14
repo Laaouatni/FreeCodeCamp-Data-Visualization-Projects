@@ -601,16 +601,48 @@ video {
   }
 }
 
+.flex {
+  display: flex;
+}
+
 .grid {
   display: grid;
+}
+
+.hidden {
+  display: none;
 }
 
 .h-screen {
   height: 100vh;
 }
 
+.w-min {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+}
+
+.max-w-min {
+  max-width: -webkit-min-content;
+  max-width: -moz-min-content;
+  max-width: min-content;
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .place-items-center {
   place-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .gap-4 {
@@ -621,6 +653,73 @@ video {
   border-width: 1px;
 }
 
+.bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity));
+}
+
+.bg-green-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity));
+}
+
+.bg-green-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 253 244 / var(--tw-bg-opacity));
+}
+
+.bg-green-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(187 247 208 / var(--tw-bg-opacity));
+}
+
+.bg-green-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(134 239 172 / var(--tw-bg-opacity));
+}
+
+.bg-green-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
+}
+
+.bg-green-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
+}
+
+.fill-green-100 {
+  fill: #dcfce7;
+}
+
+.fill-green-200 {
+  fill: #bbf7d0;
+}
+
+.fill-green-300 {
+  fill: #86efac;
+}
+
+.fill-green-400 {
+  fill: #4ade80;
+}
+
+.fill-green-50 {
+  fill: #f0fdf4;
+}
+
+.fill-green-500 {
+  fill: #22c55e;
+}
+
+.fill-green-600 {
+  fill: #16a34a;
+}
+
+.fill-green-700 {
+  fill: #15803d;
+}
+
 .p-4 {
   padding: 1rem;
 }
@@ -629,18 +728,9 @@ video {
   text-align: center;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
-}
-
-.font-bold {
-  font-weight: 700;
 }
 
 .font-semibold {
