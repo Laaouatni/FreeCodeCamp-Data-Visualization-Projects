@@ -38,6 +38,16 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
 
   paths
     .attr("data-fips", (d) => d.id)
+    .attr("data-education", (d) => {
+      const id = d.id;
+
+      const educationObj = USeducationData.find(
+        (obj) => obj.fips === id,
+      );
+
+      return educationObj.bachelorsOrHigher;
+    })
+    .classed("county", true)
     .classed("hover:fill-yellow-400", true);
 
   const tooltip = d3.select("#tooltip");
@@ -47,7 +57,7 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
       (obj) => obj.fips === d.id,
     );
 
-    const additionalDistance = 20;
+    const additionalDistance = 10;
 
     tooltip.classed("opacity-0", false);
 
@@ -56,7 +66,9 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
       `translate(
         ${
           e.pageX > window.innerWidth * 0.5
-            ? e.pageX - additionalDistance - tooltip.node().getBoundingClientRect().width
+            ? e.pageX -
+              additionalDistance -
+              tooltip.node().getBoundingClientRect().width
             : e.pageX + additionalDistance
         }px, 
         ${e.pageY + additionalDistance}px)
@@ -84,11 +96,21 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
         </div>
       `;
     });
+
+    tooltip.attr("data-education", () => {
+      const id = d.id;
+  
+      const educationObj = USeducationData.find(
+        (obj) => obj.fips === id,
+      );
+  
+      return educationObj.bachelorsOrHigher;
+    });
   });
 
   paths.on("mouseleave", () => {
     tooltip.classed("opacity-0", true);
-  })
+  });
 
   const twColorObj = {
     "fill-green-100": {
