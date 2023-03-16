@@ -36,7 +36,9 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
     .append("path")
     .attr("d", d3.geoPath().projection(projection));
 
-  paths.attr("data-fips", (d) => d.id);
+  paths
+    .attr("data-fips", (d) => d.id)
+    .classed("hover:fill-yellow-400", true);
 
   const tooltip = d3.select("#tooltip");
 
@@ -45,7 +47,9 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
       (obj) => obj.fips === d.id,
     );
 
-    const additionalDistance = 10;
+    const additionalDistance = 20;
+
+    tooltip.classed("opacity-0", false);
 
     tooltip.style(
       "transform",
@@ -55,7 +59,7 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
             ? e.pageX - additionalDistance - tooltip.node().getBoundingClientRect().width
             : e.pageX + additionalDistance
         }px, 
-        ${e.pageY}px)
+        ${e.pageY + additionalDistance}px)
       `,
     );
 
@@ -81,6 +85,10 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
       `;
     });
   });
+
+  paths.on("mouseleave", () => {
+    tooltip.classed("opacity-0", true);
+  })
 
   const twColorObj = {
     "fill-green-100": {

@@ -819,6 +819,10 @@ video {
   text-transform: capitalize;
 }
 
+.opacity-0 {
+  opacity: 0;
+}
+
 .shadow-2xl {
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
@@ -859,6 +863,14 @@ video {
 
 .duration-75 {
   transition-duration: 75ms;
+}
+
+.hover\:fill-yellow-500:hover {
+  fill: #eab308;
+}
+
+.hover\:fill-yellow-400:hover {
+  fill: #facc15;
 }
 
 .hover\:shadow:hover {
