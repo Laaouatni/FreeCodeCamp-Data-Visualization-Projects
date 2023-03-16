@@ -176,7 +176,7 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
         <div class="h-4 w-4 ${bg}"></div>
         <div>
           ${value.min ? `${value.min}%` : "<"}
-          ${value.min && `${value.max}%` ? "-" : ""} 
+          ${value.min && value.max ? "-" : ""} 
           ${value.max ? `${value.max}%` : ">"}
         </div>
       `;
