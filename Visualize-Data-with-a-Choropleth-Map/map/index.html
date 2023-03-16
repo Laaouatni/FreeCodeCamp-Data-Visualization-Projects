@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/dist/output.css" />
   </head>
   <body>
-    <div id="app" class="grid h-screen place-items-center">
+    <div id="app" class="grid h-screen place-items-center p-4 relative">
       <div id="container" class="border p-4 grid gap-4 max-w-min">
         <div class="text-center font-semibold">
           <h1 id="title" class="text-3xl">
@@ -27,9 +27,9 @@
           <h1 class="text-2xl font-semibold">Legend:</h1>
           <div id="legend" class="border p-4"></div>
         </div>
+        <div id="tooltip" class="absolute top-0 left-0 shadow-xl p-4 rounded-2xl backdrop-blur-md pointer-events-none transition duration-75">helll</div>
       </div>
     </div>
-    <!-- <div class="hidden bg-green-50 bg-green-100 bg-green-200 bg-green-300 bg-green-400 bg-green-500 bg-green-600 bg-green-700"></div> -->
     <script type="module" src="/main.js"></script>
   </body>
 </html>

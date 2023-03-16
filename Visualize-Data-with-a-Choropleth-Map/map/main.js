@@ -13,8 +13,6 @@ const multipleFetch = Promise.all([
 // EDUCATION DATA is the real data
 // COUNTIES DATA is the map data
 multipleFetch.then(([USeducationData, UScountiesMapData]) => {
-  const start = performance.now();
-
   const svg = d3.select("svg");
 
   const w = (window.innerWidth / 100) * 60;
@@ -29,8 +27,6 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
 
   const countriesJsonGenerated = geoJson.features;
 
-  console.log(USeducationData);
-
   const projection = d3.geoIdentity().fitSize([w, h], geoJson);
 
   const paths = svg
@@ -41,6 +37,50 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
     .attr("d", d3.geoPath().projection(projection));
 
   paths.attr("data-fips", (d) => d.id);
+
+  const tooltip = d3.select("#tooltip");
+
+  paths.on("mouseover", (e, d) => {
+    const educationObj = USeducationData.find(
+      (obj) => obj.fips === d.id,
+    );
+
+    const additionalDistance = 10;
+
+    tooltip.style(
+      "transform",
+      `translate(
+        ${
+          e.pageX > window.innerWidth * 0.5
+            ? e.pageX - additionalDistance - tooltip.node().getBoundingClientRect().width
+            : e.pageX + additionalDistance
+        }px, 
+        ${e.pageY}px)
+      `,
+    );
+
+    tooltip.html(() => {
+      const arrSpans = Object.keys(educationObj)
+        .map((key) => {
+          return `
+          <div class="grid grid-cols-2 gap-4">
+            <span class="flex justify-between font-bold capitalize gap-2">
+              <span>${key.replace("_", " ")}</span>
+              <span>:</span>
+            </span>
+            <span>${educationObj[key]}</span>
+          </div>
+        `;
+        })
+        .join("");
+
+      return `
+        <div class="text-lg">
+          ${arrSpans}
+        </div>
+      `;
+    });
+  });
 
   const twColorObj = {
     "fill-green-100": {
@@ -94,7 +134,10 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
     .append("div");
 
   legendChilds
-    .classed("border p-4 flex items-center gap-4 rounded-lg hover:shadow transition", true)
+    .classed(
+      "border p-4 flex items-center gap-4 rounded-lg hover:shadow transition",
+      true,
+    )
     .html((d) => {
       const bg = d.replace("fill", "bg");
       const value = twColorObj[d];
@@ -121,8 +164,4 @@ multipleFetch.then(([USeducationData, UScountiesMapData]) => {
       return value.needToBeApplied(educationObj.bachelorsOrHigher);
     });
   });
-
-  const finish = performance.now();
-
-  console.log("time needed:" + (finish - start) + "ms");
 });
